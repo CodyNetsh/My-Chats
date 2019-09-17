@@ -1,0 +1,49 @@
+.chats-page-content {
+    .chat-picture {
+      border-radius: 50%;
+      width: 50px;
+      float: left;
+    }
+   
+    .chat-info {
+      float: left;
+      margin: 10px 0 0 20px;
+   
+      .last-message-timestamp {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 14px;
+        color: #9A9898;
+      }
+    }
+  }
+  .block {
+    display: block;
+    width: 100%;
+    border: none;
+    background-color: rgb(236, 236, 227);
+    padding: 14px 28px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    height: 100%;
+  }
+  img {
+    border-radius: 50%;
+  }
+  ion-footer{
+    background-color: rgb(227, 236, 227);
+
+  }
+  // .chats{
+  //   display: block;
+  //   width: 100%;
+  //   border: none;
+  //   background-color: rgb(236, 236, 227);
+  //   padding: 14px 28px;
+  //   font-size: 16px;
+  //   cursor: pointer;
+  //   text-align: center;
+  //   height: 100%;
+  // }

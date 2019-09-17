@@ -1,0 +1,102 @@
+<ion-header>
+  <ion-toolbar color="success">
+    <ion-title >Chat Room</ion-title>
+    <ion-buttons  float-right>
+      
+          <ion-button ion-button icon-only class="search-button"><ion-icon name="search"></ion-icon></ion-button>
+
+        
+        <ion-button ion-button icon-only class="options-button">
+          <ion-icon name="more"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    <br>
+
+            <ion-buttons color="success">
+                <ion-icon name=""></ion-icon>
+                <ion-icon name=""></ion-icon>
+                <ion-button>
+                <ion-icon name="camera"></ion-icon>  
+              </ion-button>
+                <ion-icon name=""></ion-icon>
+                <ion-icon name=""></ion-icon>
+              <!-- <ion-icon name="contacts"></ion-icon> -->
+            <ion-button>
+              <ion-label>Chats</ion-label>
+            </ion-button>
+              <ion-icon name=""></ion-icon>
+              <ion-icon name=""></ion-icon>
+              <!-- <ion-icon name="map"></ion-icon> -->
+            <ion-button (click)="group()">
+              <ion-label>Group</ion-label>
+            </ion-button>
+              <ion-icon name=""></ion-icon>
+              <ion-icon name=""></ion-icon>
+            <ion-button>
+              <ion-icon name="information-circle"></ion-icon>
+            </ion-button>
+              <!-- <ion-label>About</ion-label> -->
+            </ion-buttons>
+        
+     
+  </ion-toolbar>
+  
+</ion-header>
+
+<ion-content class="chats">
+
+    <ion-list >
+        <ion-item-sliding *ngFor="let userChat of users ">
+          <div *ngIf="userChat.userID != uid">
+              <button width="100%;" class="block" color="light" ion-item  (click)="private(userChat) ">
+                  <img class="chat-picture"  style="width:70px" float-left src="{{userChat.photoURL}}"> 
+                   <h4 class="chat-title" >{{userChat.displayName}}</h4>
+                   <!-- <span *ngIf="chat.Message" class="last-message">
+                       <h6  class="last-message-content last-message-content-text">{{chat.Message}}</h6>
+                        <span class="last-message-timestamp">last seen... {{chat.lastMessage.createdAt | date:'EE  hh:mm'}}</span>
+                     </span>  -->
+                 
+               </button> 
+               <!-- <ion-item-options class="chat-options">
+                   <button ion-button color="danger" class="option option-remove" (click)="removeChat(chat)">Remove</button>
+                 </ion-item-options> -->
+          </div>
+         
+        </ion-item-sliding>
+      </ion-list>
+
+    </ion-content>
+<ion-footer>
+    <ion-button float-right color="success" icon-only class="add-chat-button"(click)="add()" >
+        <ion-icon name="person-add"></ion-icon></ion-button>
+  
+</ion-footer>
+
+<!-- 
+<ion-view view-title="Chats">
+    <ion-nav-buttons side="right">
+      <button ng-click="openNewChatModal()"
+              class="button button-clear button-positive button-icon ion-ios-compose-outline">
+      </button>
+    </ion-nav-buttons>
+  
+    <ion-content>
+      <ion-list>
+        <ion-item
+          ng-repeat="chat in chats | orderBy:'-lastMessage.timestamp'"
+          class="item-chat item-remove-animate item-avatar item-icon-right"
+          type="item-text-wrap"
+          href="#/tab/chats/{{chat._id}}">
+          <img ng-src="{{chat | chatPicture}}">
+          <h2>{{chat | chatName}}</h2>
+          <p>{{chat.lastMessage.text}}</p>
+          <span class="last-message-timestamp">{{chat.lastMessage.timestamp | calendar}}</span>
+          <i class="icon ion-chevron-right icon-accessory"></i>
+  
+          <ion-option-button class="button-assertive" ng-click="remove(chat)">
+            Delete
+          </ion-option-button>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-view> -->

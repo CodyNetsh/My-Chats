@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Signin</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <!-- <ion-item>
+        <button ion-button color="secondary" (click)="getPicture()">Get Image</button>
+      </ion-item>
+      <ion-item>
+        <img src="{{photoURL}}" *ngIf="imageFileName" alt="Ionic File" width="300" />
+      </ion-item>  -->
+
+     <ion-item>
+          <img src="{{photoURL}}"  width="150" height="150" accept=".png,.jpg">
+        
+          <br>
+          <!-- <ion-label><h2>USER PROFILE : {{name}}</h2></ion-label> -->
+        
+      </ion-item>
+          
+          <ion-item>
+            <input type="file" (change)="upload($event)" accept=".png,.jpg"> 
+          </ion-item>
+          <ion-item>
+            <ion-button  expand="full"  color="light"  (click)="enterNickname()">Update Profile</ion-button>
+            </ion-item>
+      
+      
+       
+<!-- 
+      <div class="profile-image">
+          <img src="{{imgurl}}">
+        </div>
+        <div>
+          <button ion-button round outline (click)="chooseimage()">Choose an image</button>
+        </div>
+        <div [hidden]="!moveon">
+          <button ion-button round outline (click)="proceed()">Skip this step</button>
+        </div>
+        <div [hidden]="moveon">
+          <button ion-button round outline (click)="updateproceed()">Upload & proceed</button>
+        </div>
+
+      <div class="profile-image" (click)="editimage()">
+          <img src="{{avatar}}">
+        </div>
+        <div>
+          <h2 (click)="editname()">{{displayName}}</h2>
+        </div>
+        <div>
+          Tap on your pic or nick name to change it.
+        </div>
+        <div class="spacer" style="height: 10px;"></div>
+        <div>
+          <button ion-button round outline color="danger" (click)="logout()">Logout</button>
+        </div> -->
+</ion-content>

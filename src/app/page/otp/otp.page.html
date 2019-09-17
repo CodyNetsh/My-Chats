@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title><h2>Phone Verification</h2></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content >
+ 
+  <div class="typography_container">
+    <img src="assets/img/web_text.png" width="100%">
+  </div>
+  <h3>Type the OTP sent your mobile</h3>
+  <div >
+  <ion-item class="input_item" for="phone">
+    <ion-input type="text"  placeholder="1"  [(ngModel)]="phoneNumber.country" maxlength="2">+</ion-input>
+    <ion-input type="text" [(ngModel)]="phoneNumber.area"   placeholder="949"    maxlength="3">-</ion-input>
+    <ion-input type="text" [(ngModel)]="phoneNumber.prefix" class="input" placeholder="555"  maxlength="3">-</ion-input>
+    <ion-input type="text" [(ngModel)]="phoneNumber.line"  class="input" placeholder="5555"  maxlength="4">-</ion-input>
+  
+  </ion-item>
+  <div id="recaptcha-container"></div>
+  
+  <div class="otp_container">
+    <ion-button color="light" expand="full"  class="btn_login" (click)="sendLoginCode()">Send OTP</ion-button>
+
+     <div *ngIf="windowRef.confirmationResult">  
+       <hr>
+  <ion-item class="input_item">
+    <ion-input placeholder="Enter onetime OTP" [(ngModel)]="verificationCode" ></ion-input>
+  </ion-item>
+  <ion-button color="light" expand="full" class="btn_login" (click)="verifyLoginCode()">VERIFY</ion-button>
+  </div>
+</div>
+  </div>
+<!-- 
+<div *ngIf="user">
+  You have successfully logged in with your phone number!
+
+  UserId: {{ user?.uid }}
+
+</div> -->
+</ion-content>
+

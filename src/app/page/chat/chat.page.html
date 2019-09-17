@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar color="success">
+      <ion-title> 
+        <img src="{{userChat.photoURL}}" width="30"  alt="Avatar" height="30">
+        {{userChat.displayName}}</ion-title> 
+      <ion-icon name="arrow-back" (click)="back()"></ion-icon>
+
+      <div class="image-upload" float-right>
+        <label for="file-input">
+            <ion-icon name="attach"> </ion-icon>
+        
+        <input id="file-input" class="input" type="file" (change)="upload($event)" /> 
+      </label>
+      </div>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="background" >
+    <div class="messages" *ngFor = "let buddy of bchat | async" >
+
+        <div  class="me" *ngIf = "keyuid == buddy.UserID && buddy.sendto == sendTo" (click)="share(buddy)">
+            <h3>ME:{{buddy.Message}}</h3>
+            <img src="{{buddy.Image}}"   accept=".png,.jpg">
+        </div>
+
+            <div  class="you" *ngIf = "buddy.sendto == keyuid && buddy.UserID == sendTo" (click)="share(buddy)">
+            <h3>YOU:{{buddy.Message}}</h3>
+            <img src="{{buddy.Image}}"  accept=".png,.jpg">
+        </div>
+        
+    </div>
+
+ 
+    </ion-content>
+
+    <ion-footer ion-fixed>    
+      <ion-toolbar >    
+        <ion-item>    
+        <ion-input [(ngModel)]="newmessage" placeholder="Write your message ..."></ion-input> 
+            <ion-button color="light" float-right  (click)="send()" >
+              <ion-icon name="send"></ion-icon>
+            </ion-button>
+           </ion-item>
+      </ion-toolbar>    
+    </ion-footer>

@@ -1,0 +1,130 @@
+
+<ion-content  class="background-image">
+   
+    <div class="form-group">
+        <h6 float-right><img src="../assets/img/blu.png"  width="30" height="30" [ngClass]="{'btn-primary
+          active': selectedVal == 'register' }"
+          (click)="onValChange('register')">
+        <br>SignUp</h6>
+    
+    &nbsp;<br>
+    &nbsp;<br>
+    &nbsp;<br>
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    <br><br>
+    <br><br><br>
+    <br>
+    <br><br>
+    <ion-item> <ion-label floating for="email">Email</ion-label>
+    <ion-input type="email" class="form-control" [(ngModel)]="user.email"
+    id="email" placeholder="Email"></ion-input>
+    </ion-item>
+    </div>
+    <div *ngIf="!isregisterUser">
+    <div class="form-group" *ngIf="!isForgotPassword">
+    <ion-item >
+      <ion-label floating for="password">Password</ion-label>
+    <ion-input type="password" class="form-control"
+    [(ngModel)]="user.password" id="password" placeholder="Password"></ion-input>
+    </ion-item>
+    </div>
+    <div class="form-group" *ngIf="!isForgotPassword">
+    
+    <span *ngIf="selectedVal == 'login'; else elseBlock">
+    <ion-button expand="full" color="primary" (click)="loginUser(user)">Log In</ion-button>
+     <h5 style="text-align:center;" >_____________or____________</h5>
+     <ion-button expand="full" color="primary" (click)="ann()">Annonymous</ion-button>
+
+    <p>
+    <a href="javascript:void(0)" (click)="this.isForgotPassword= true;">Forgot
+    Password?</a>
+    If you're a new user, please sign up.
+    </p>
+    </span>
+    <ng-template #elseBlock>
+        <ion-item> <ion-label floating for="name">First Name</ion-label>
+          <ion-input type="name" class="form-control" [(ngModel)]="nickname"
+          id="name" placeholder="FirstName"></ion-input>
+          </ion-item>
+          <ion-item> <ion-label floating for="lastname">LastName</ion-label>
+            <ion-input type="lastname" class="form-control" [(ngModel)]="lastname"
+            id="lastname" placeholder="LastName"></ion-input>
+
+            </ion-item>
+
+            <!-- <ion-card>
+              <ion-item>
+                <img src="{{photoURL}}"  width="150" height="150" accept=".png,.jpg">
+            
+            </ion-item>
+                      
+                <ion-item>
+                  <ion-input type="file" (change)="upload($event)" accept=".png,.jpg"> </ion-input>
+                </ion-item>
+              </ion-card> -->
+              
+    <ion-button expand="full" class="btn btn-primary"(click)="register(user)">Register</ion-button>
+     <h5 style="text-align:center;" >_____________or____________</h5>
+    <ion-button expand="full" [ngClass]="{'btn-primary
+    active': selectedVal == 'login' }"
+    (click)="onValChange('login')" color="danger">Login</ion-button>
+    </ng-template>
+    
+    
+    
+    
+   
+    
+    </div>
+    </div>
+    
+    <div class="form-group" *ngIf="isForgotPassword">
+    
+    <ion-button expand="full" color="danger" (click)="this.isForgotPassword=
+    false;">Cancel</ion-button>
+    <ion-button type="button" expand="full" class="btn btn-primary"
+    (click)="forgotPassword()">Get email to reset passowrd</ion-button>
+    <!-- <h5 style="text-align:center;" >_____________or____________</h5> -->
+    
+    </div>
+    <!-- <div class="form-group" >
+    <img src="../assets/img/icons8-facebook-64.png" alt="" srcset=""
+    (click)="facebook()" style="cursor: pointer;">
+    
+    <img src="../assets/img/icons8-phone-64.png" alt="" srcset=""
+    (click)="Phone()" style="cursor: pointer;">
+        <img src="../assets/img/icons8-twitter-64.png" alt="" srcset=""
+          (click)="twitter()" style="cursor: pointer;">
+    
+          <img src="../assets/img/icons8-google-48.png" alt="" srcset=""
+    (click)="googleLogin()" style="cursor: pointer;">
+    </div> -->
+    
+    <!-- When Uses is Logged In using Email or Google Account -->
+    <!-- <div class="card-body" *ngIf="userDetails">
+    <div class="row">
+    <div class="col-sm-12">
+    <ul class="list-group">
+    <li class="list-group-item">Display Name:
+      {{userDetails['displayName']}}</li>
+    <li class="list-group-item">Email: {{userDetails['email']}}</li>
+    <li class="list-group-item">Is Email Varified:
+      {{userDetails['emailVerified']}}</li>
+      <ion-button type="button" class="btn btn-danger"
+        (click)="logoutUser()" color="danger">Logout</ion-button>
+    
+    </ul>
+    </div>
+    </div>
+    </div>
+    
+    <div class="alert alert-{{responseMessageType}}" role="alert"
+    *ngIf="responseMessage.length">
+    {{responseMessage}}
+    </div> -->
+    
+    
+    </ion-content>
+    

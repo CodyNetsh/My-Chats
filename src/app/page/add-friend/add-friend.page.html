@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar color="success">      
+       <ion-icon  name="arrow-back" (click)="back()"></ion-icon>
+
+    <ion-title>addFriend</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-searchbar [(ngModel)]="searchstring" (input)="searchuser($event)" placeholder="Search"></ion-searchbar>
+<ion-list no-lines>
+  <ion-list>
+    <ion-item-sliding *ngFor="let key of filteredusers">
+      <ion-item >
+        
+        <ion-avatar item-left>
+          <img src="{{key.photoURL}}">
+        </ion-avatar>
+        <h2>{{key.displayName}}</h2>
+     
+      </ion-item>
+      <ion-item-options slide="left">
+        <button ion-button color="primary" (click)="sendreq(key)">
+          <ion-icon name="person-add"></ion-icon>
+          Add
+        </button>
+      </ion-item-options>
+      
+    </ion-item-sliding>
+  </ion-list>
+</ion-list>
+
+</ion-content>
+
+
+<ion-footer >
+    <ion-list no-lines>
+      <ion-list-header>
+        Requests
+      </ion-list-header>
+      <ion-item-sliding *ngFor="let item of myrequests">
+        <ion-item>
+        <ion-avatar item-left>
+          <img src="{{item.photoURL}}">
+        </ion-avatar>
+        <h4>{{item.displayName}}</h4>
+        </ion-item>
+        <ion-item-options>
+          <button ion-button color="secondary" (click)="accept(item)">
+            <ion-icon name="checkmark"></ion-icon>
+            ADD
+          </button>
+          <button ion-button color="danger" (click)="ignore(item)">
+            <ion-icon name="trash"></ion-icon>
+            NOPE
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+      <ion-list-header>
+        Friends
+      </ion-list-header>
+      <ion-item *ngFor="let item of myfriends" (click)="buddychat(item)">
+        <ion-avatar item-left>
+          <img src={{item.photoURL}}>
+        </ion-avatar>
+        <h3>{{item.displayName}}</h3>
+      </ion-item>
+    </ion-list>
+    </ion-footer>
