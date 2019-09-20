@@ -1,19 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {  Observable, of} from 'rxjs';
-import { fromEvent } from 'rxjs';
-import * as firebase from 'firebase'
-
-import { map } from 'rxjs/operators';
- import * as moment from 'moment';
- import { MessageType, Chat } from '../../module/chats';
-import { CollectionPage } from '../collection/collection.page';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { NavController, Events, AlertController } from '@ionic/angular';
-// import { NavController } from '@ionic/angular';
-// import { Push, PushObject, PushOptions } from '@ionic-native/push/ngx';
+import {  Events, AlertController, ActionSheetController } from '@ionic/angular';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
 @Component({
   selector: 'app-chatroom',
@@ -25,13 +16,7 @@ export class ChatroomPage implements OnInit {
   Message: any
   Chat: any
   MessageType: any ;
-  chats: Observable<any[]>;
-
-  // item = {Message:"",
-  // Name:"",
-  // TimeStamp:"",
-  // UserID:""
-  // } ;
+  
   uid: any;
   chatRef: any;
  message;
@@ -42,13 +27,13 @@ export class ChatroomPage implements OnInit {
   myrequests: any;
   myfriends: any[];
 
+
  
 
   constructor(private route:ActivatedRoute,private router:Router,private authService: AuthenticationService,public afAuth: AngularFireAuth,
     private fire:AngularFirestore,private events:Events,public alertCtrl: AlertController
-      
+      ,private camera: Camera,public actionSheetController: ActionSheetController
     ) { 
-    //  this.chats = this.findChats();
      this.uid =this.afAuth.auth.currentUser.uid;
       this.chatRef = this.fire.collection('userCol').snapshotChanges().subscribe(data =>{
       this.users = data.map ( e => {
@@ -60,39 +45,47 @@ export class ChatroomPage implements OnInit {
       
       });
       
-  // console.log(this.itemList);
-
     })
   
-    // this.groceryList = this.grocery.getGrocery();
-
-
-    // this.mylist = this.authService.list;
-    // console.log(this.mylist);
-
-    // this.events.subscribe('gotrequests', () => {
-    //   this.myrequests = [];
-    //   this.myrequests = this.authService.userdetails;
-    // })
+    this.takePhoto();
+  }
+  takePhoto() {
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE
+    }
     
-    // this.events.subscribe('gotrequests', () => {
-    //   this.myrequests = [];
-    //   this.myrequests = this.authService.userdetails;
-    // })
+    this.camera.getPicture(options).then((imageData) => {
+     // imageData is either a base64 encoded string or a file URI
+     // If it's base64 (DATA_URL):
+     let base64Image = 'data:image/jpeg;base64,' + imageData;
+    }, (err) => {
+     // Handle error
+    });
   }
 
+  sign(users){
+   
+      this.router.navigate(['/signin'], {queryParams:{uid: this.afAuth.auth.currentUser.uid,  displayName: users.displayName, photoURL: users.photoURL}})
+     
+  }
+  search(){
+    this.router.navigateByUrl("add-friend")
+  }
   add(){
     this.router.navigateByUrl("add-friend")
   }
+  logoutUser() {
+    this.authService.logout()
+      
+  }
   
-
 accept(item) {
   this.authService.acceptrequest(item).then(() => {
 
     let newalert = this.alertCtrl.create({
-      // title: 'Friend added',
-      // subTitle: 'Tap on the friend to chat with him',
-      // buttons: ['Okay']
     });
     // newalert.present();
   })
@@ -108,7 +101,6 @@ buddychat(chat) {
 }
 
 private(userChat){
-// console.log(this.user.displayName,this.user.photoURL)
 this.router.navigate(['/chat'], { queryParams:{ displayName:userChat.displayName,photoURL:userChat.photoURL,uid:userChat.uid}});
 }
 
@@ -119,134 +111,41 @@ ignore(item) {
     alert(err);
   })
 }
-//   groupUserID(UserID){
 
-//      let sortedUserID = UserID;
-//     let currentLetter = false;
-//     let currentUserID = [];
-
-//     sortedUserID.forEach((value, index) => {
-
-//         if(value.charAt(0) != currentLetter){
-
-//             currentLetter = value.charAt(0);
-
-//             let newGroup = {
-//                 letter: currentLetter,
-//                 UserID: []
-//             };
-
-//             currentUserID = newGroup.UserID;
-//             this.itemList.push(newGroup);
-
-//         } 
-
-//         currentUserID.push(value);
-
-//     });
-
-// }
-  // private 
-  // findChats(): Observable<any[]> {
-  //   return of([
-  //     {
-  //       id: 'H0lHiShCnBL03UmbOaMQ',
-  //       name: 'Ethan Gonzalez',
-  //       picture: 'https://randomuser.me/api/portraits/thumb/men/1.jpg',
-  //       lastMessage: {
-  //         content: 'You on your way?',
-  //         createdAt: moment().subtract(1, 'hours').toDate()
-  //         ,  type: MessageType.TEXT
-  //       }
-  //     },
-  //     {
-  //       id: 'VlMcUK9fActSzRiTP1T3',
-  //       name: 'Bryan Wallace',
-  //       picture: 'https://randomuser.me/api/portraits/thumb/lego/1.jpg',
-  //       lastMessage: {
-  //         content: 'Hey, it\'s me',
-  //         createdAt: moment().subtract(2, 'hours').toDate()
-  //         ,  type: MessageType.TEXT
-  //       }
-  //     },
-  //     {
-  //       id: '2',
-  //       name: 'Avery Stewart',
-  //       picture: 'https://randomuser.me/api/portraits/thumb/women/1.jpg',
-  //       lastMessage: {
-  //         content: 'I should buy a boat',
-  //         createdAt: moment().subtract(1, 'days').toDate()
-  //         ,  type: MessageType.TEXT
-  //       }
-  //     },
-  //     {
-  //       id: '3',
-  //       name: 'Katie Peterson',
-  //       picture: 'https://randomuser.me/api/portraits/thumb/women/2.jpg',
-  //       lastMessage: {
-  //         content: 'Look at my mukluks!',
-  //         createdAt: moment().subtract(4, 'days').toDate()
-  //         ,  type: MessageType.TEXT
-  //       }
-  //     },
-  //     {
-  //       id: '37rXvBfcTQAylBd3E4Fo',
-  //       name: 'Ray Edwards',
-  //       picture: 'https://randomuser.me/api/portraits/thumb/men/2.jpg',
-  //       lastMessage: {
-  //         content: 'This is wicked good ice cream.',
-  //         createdAt: moment().subtract(2, 'weeks').toDate(), 
-  //          type: MessageType.TEXT
-  //       }
-  //     }
-  //   ]);
-  // }
   group(){
     this.router.navigateByUrl("collection")
   }
   showMessages() {
-    // this.router.navigateByUrl("collection");
-    // this.push.listChannels(CollectionPage, {chat});
-    // console.log(this.chat.id,this.user.displayName,this.chat.picture,this.chat.lastMessage)
-    // this.router.navigate(['/collection'], { queryParams:{ id:this.chat.id,displayName:this.user.displayName,picture:this.chat.picture,lastMessage:this.chat.lastMessage}});
   
   }
-  removeChat(chat: Chat) {
-    this.chats = this.chats.pipe(map((chatsArray: Chat[]) => {
-      const chatIndex = chatsArray.indexOf(chat);
-      if (chatIndex !== -1) {
-        chatsArray.splice(chatIndex, 1);
-      }
  
-      return chatsArray;
-    }));
-    this.Chat.remove({_id: chat.id}).subscribe(() => {
-    });
-  }
 
   ngOnInit() {
 
-   
-//     this.route.queryParams
-//     .subscribe(params =>
-//  {
-     
-//       this.user.displayName= params.displayName;
 
-//       console.log(this.user.displayName)
-//   });
-  
-  // this.authService.getmyrequests();
-  // this.authService.getmyfriends();
-  // this.myfriends = [];
-  // this.events.subscribe('gotrequests', () => {
-  //   this.myrequests = [];
-  //   this.myrequests = this.authService.userdetails;
-  // })
-  // this.events.subscribe('friends', () => {
-  //   this.myfriends = [];
-  //   this.myfriends = this.authService.myfriends; 
-  // })
 }
+async presentActionSheet() {
+  const actionSheet = await this.actionSheetController.create({
+    header: 'Albums',
+    buttons: [
+   
+    {
+      text: 'Profile Update',
+      icon: 'person',
+      handler: () => {
+        console.log('signin clicked');
+      this.router.navigate(['/signin'], {queryParams:{uid: this.afAuth.auth.currentUser.uid,  displayName: this.chatRef.displayName, lastname:this.chatRef.lastname,photoURL: this.chatRef.photoURL}})
 
+      }
+    }, {
+      text: 'LogOut',
+      icon: 'arrow-dropright-circle',
+      handler: () => {
+        console.log('LogOut clicked');
+        this.authService.logout()
+      }
+    }]
+  });
+  await actionSheet.present();
+}
 }

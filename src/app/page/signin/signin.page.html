@@ -1,6 +1,6 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Signin</ion-title>
+  <ion-toolbar color="success">
+    <ion-title>Profile picture</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -21,15 +21,38 @@
         
       </ion-item>
           
-          <ion-item>
+          <!-- <ion-item>
             <input type="file" (change)="upload($event)" accept=".png,.jpg"> 
+          </ion-item>-->
+         
+      
+            <div>
+              <div class="login-html">
+                  <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab"><h6> Upload Image</h6></label>
+                  <div class="login-form">
+                      <div class="sign-up-htm">
+                          <div padding text-center>
+                              <input type="file" (change)="upload($event)" />
+                                     <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab"><h6>done </h6> </label>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <ion-item color="light">
+            <ion-label>Username:</ion-label>
+            {{name}}{{user?.name}}
+        </ion-item>
+        <ion-item color="light">
+            <ion-label>Email:</ion-label>
+            {{Email}}{{user?.Email}}
+        </ion-item>
+        <ion-item>
+        {{nickname}}
           </ion-item>
-          <ion-item>
-            <ion-button  expand="full"  color="light"  (click)="enterNickname()">Update Profile</ion-button>
-            </ion-item>
-      
-      
-       
+            <ion-button  fill="solid" expand="block"  color="light"  (click)="enterNickname()">Update Profile</ion-button>
+            
 <!-- 
       <div class="profile-image">
           <img src="{{imgurl}}">

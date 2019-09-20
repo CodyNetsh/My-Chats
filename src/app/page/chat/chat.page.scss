@@ -1,4 +1,4 @@
-img {
+.pp {
     border-radius: 50%;
   }
 
@@ -150,4 +150,11 @@ img {
 // font-weight: bold
 // }
 
+}
+.image-upload>input{
+  display:none;
+}
+
+.input{
+  display: none;
 }

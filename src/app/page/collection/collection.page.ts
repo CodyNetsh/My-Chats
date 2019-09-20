@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 // import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 // import { Chat, MessageType,Message } from 'src/app/module/chats';
 // import { NavParams } from '@ionic/angular';
@@ -15,6 +15,10 @@ import * as firebase from 'firebase'
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { finalize } from 'rxjs/operators';
 import { AngularFireStorageModule ,AngularFireStorage } from '@angular/fire/storage';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { ActionSheetController } from '@ionic/angular';
+// import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
+
 @Component({
   selector: 'app-collection',
   templateUrl: './collection.page.html',
@@ -42,13 +46,17 @@ export class CollectionPage implements OnInit {
   uploadPercent: any;
   key: string;
 
-  constructor( private router:Router,private route:ActivatedRoute,public Storage: AngularFireStorage,private authService: AuthenticationService,public afAuth: AngularFireAuth,  private fire:AngularFirestore
-
-   
-    ) {
+  constructor( private router:Router,
+    private camera: Camera,
+    private route:ActivatedRoute,
+    public Storage: AngularFireStorage,private authService: AuthenticationService,public afAuth: AngularFireAuth,  private fire:AngularFirestore
+    ,public actionSheetController: ActionSheetController    ) {
    
   this.key =this.afAuth.auth.currentUser.uid;
     this.chatRef = this.fire.collection('userCol',ref=>ref.orderBy('TimeStamp')).valueChanges();
+
+    this.takePhoto();
+
    }
 
    back(){
@@ -59,7 +67,10 @@ export class CollectionPage implements OnInit {
 
      }
 
-   
+    //  zoom(urlfile){
+    //   this.Viewer.show(urlfile.image, "" ,{share:true, copyToReference: true});
+    // }
+
    send(){
    
      if(this.message != ''){
@@ -99,8 +110,44 @@ export class CollectionPage implements OnInit {
       ).subscribe();
     }
  
-    logoutUser() {
-      this.authService.logout()
-        
+    takePhoto() {
+      const options: CameraOptions = {
+        quality: 100,
+        destinationType: this.camera.DestinationType.FILE_URI,
+        encodingType: this.camera.EncodingType.JPEG,
+        mediaType: this.camera.MediaType.PICTURE
+      }
+      
+      this.camera.getPicture(options).then((imageData) => {
+       // imageData is either a base64 encoded string or a file URI
+       // If it's base64 (DATA_URL):
+       let base64Image = 'data:image/jpeg;base64,' + imageData;
+      }, (err) => {
+       // Handle error
+      });
+    }
+    async presentActionSheet() {
+      const actionSheet = await this.actionSheetController.create({
+        header: 'Albums',
+        buttons: [
+       
+        {
+          text: 'Camera',
+          icon: 'camera',
+          handler: () => {
+            console.log('Camera clicked');
+            this.takePhoto()  
+          }
+        }, {
+          text: 'Gallery',
+          icon: 'down-arrow',
+          handler: () => {
+            console.log('Gallery clicked');
+          
+           this.upload(event);
+          }
+        }]
+      });
+      await actionSheet.present();
     }
 }

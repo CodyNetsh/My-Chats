@@ -5,9 +5,31 @@
 </ion-header>
 
 <ion-content>
-  <ion-button expand="full" (click)="shareTwitter()">Share on Twitter</ion-button>
+  <!-- <ion-button expand="full" (click)="shareTwitter()">Share on Twitter</ion-button>
   <ion-button expand="full" (click)="shareEmail()">Share by Email</ion-button>
-  <ion-button expand="full" (click)="shareFacebook()">Share on Facebook</ion-button>
-  <ion-button expand="full" (click)="shareWhatsApp()">Share with WhatsApp</ion-button>
- 
+  <ion-button expand="full" (click)="shareFacebook()">Share on Facebook</ion-button> -->
+  <!-- <ion-button expand="full" (click)="shareWhatsApp()">Share with WhatsApp</ion-button> -->
+    <div class="form-group" >
+    <img src="../assets/img/icons8-facebook-64.png" alt="" srcset=""
+    (click)="shareFacebook()" style="cursor: pointer;">
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    <img src="../assets/img/icons8-whatsapp-48.png" alt="" srcset=""
+    (click)="shareWhatsApp()" style="cursor: pointer;">
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    <img src="../assets/img/icons8-twitter-64.png" alt="" srcset=""
+          (click)="shareTwitter()" style="cursor: pointer;">
+          &nbsp;
+          &nbsp;
+          &nbsp;
+          &nbsp;
+          <img src="../assets/img/icons8-google-48.png" alt="" srcset=""
+    (click)="shareEmail()" style="cursor: pointer;">
+    </div>
+    
 </ion-content>

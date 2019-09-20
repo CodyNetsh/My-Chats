@@ -1,13 +1,14 @@
-import { Component, OnInit, ViewChild, NgZone, ɵConsole } from '@angular/core';
-import { NavController, Events, AlertController, LoadingController } from '@ionic/angular';
+import { Component, OnInit, NgZone } from '@angular/core';
+import { NavController, AlertController, LoadingController, ActionSheetController } from '@ionic/angular';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthenticationService } from 'src/app/service/authentication.service';
 import { AngularFireAuth } from '@angular/fire/auth';
 import * as firebase from 'firebase';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { finalize } from 'rxjs/operators';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { AuthenticationService } from 'src/app/service/authentication.service';
 
 @Component({
   selector: 'app-chat',
@@ -15,7 +16,6 @@ import { SocialSharing } from '@ionic-native/social-sharing/ngx';
   styleUrls: ['./chat.page.scss'],
 })
 export class ChatPage implements OnInit {
-  // @ViewChild('content') content: Content;
   
   newmessage;
   id: string;
@@ -31,9 +31,11 @@ export class ChatPage implements OnInit {
     photoURL:"",
     uid:""
   }
-  // uid: string;
   sendTo;
   keyuid: string;
+  selectedVal: string;
+  responseMessage: string;
+  responseMessageType: any;
   constructor(
     public navCtrl: NavController,
     private route:ActivatedRoute,
@@ -44,7 +46,8 @@ export class ChatPage implements OnInit {
     public zone: NgZone, 
     public loadingCtrl: LoadingController
       ,public Storage: AngularFireStorage,
-      private socialSharing: SocialSharing) { 
+      private socialSharing: SocialSharing,
+      private authService: AuthenticationService,      private camera: Camera,public actionSheetController: ActionSheetController) { 
         
       this.keyuid =this.afAuth.auth.currentUser.uid;
       this.bchat=this.fire.collection('personal',ref=>ref.orderBy('TimeStamp')).valueChanges();
@@ -60,6 +63,8 @@ export class ChatPage implements OnInit {
         this.sendTo=params.uid
         console.log(this.userChat.displayName,this.userChat.photoURL,this.userChat.uid)
     });
+    this.takePhoto();
+
     }
     send(){
    
@@ -114,10 +119,61 @@ export class ChatPage implements OnInit {
       })
     }
    
-  //  zoom(url){
-  //     this.Viewer.show(url.Image, "" ,{share:true, copyToReference: true});
+  //  zoom(urlfile){
+  //     this.Viewer.show(urlfile.Image, "" ,{share:true, copyToReference: true});
   //   }
   ngOnInit() {
+  }
+  showMessage(type, msg) {
+    this.responseMessageType = type;
+    this.responseMessage = msg;
+    setTimeout(() => {
+      this.responseMessage = "";
+    }, 2000);
+  }
+  public onValChange(val: string) {
+    this.showMessage("", "");
+    this.selectedVal = val;
+  }
+  takePhoto() {
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE
+    }
+    
+    this.camera.getPicture(options).then((imageData) => {
+     // imageData is either a base64 encoded string or a file URI
+     // If it's base64 (DATA_URL):
+     let base64Image = 'data:image/jpeg;base64,' + imageData;
+    }, (err) => {
+     // Handle error
+    });
+  }
+  async presentActionSheet() {
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Albums',
+      buttons: [
+     
+      {
+        text: 'Camera',
+        icon: 'camera',
+        handler: () => {
+          console.log('Camera clicked');
+          this.takePhoto()  
+        }
+      }, {
+        text: 'Gallery',
+        icon: 'down-arrow',
+        handler: () => {
+          console.log('Gallery clicked');
+        
+         this.upload(event);
+        }
+      }]
+    });
+    await actionSheet.present();
   }
 
 

@@ -56,6 +56,11 @@ export class AuthenticationService {
 //     this.events.publish('newmessage');
 //   })
 // }
+// update(user, uid){
+//   this.chatRef = this.fire.doc<User>('userCol/'+ uid);
+//   this.chatRef.update(user);
+//  }
+
  addnewmessage(msg) {
   if (this.chat) {
     var promise = new Promise((resolve, reject) => {

@@ -3,23 +3,26 @@
       
           <!-- <img  src="{{photoURL}}" >
           <ion-label>{{displayName}}</ion-label> -->
-          <ion-buttons >
-          <ion-icon name="arrow-back" (click)="back()"></ion-icon>
-
-    <ion-title >Chat Group</ion-title>
-  </ion-buttons>
-  <ion-label float-right (click)="logoutUser()">LogOut</ion-label>
-  <!-- <span class="last-message-timestamp">last seen... {{chat.lastMessage.createdAt | date:'EE  hh:mm'}}</span> -->
-   <ion-buttons float-right>
-      
-      <div class="image-upload" float-right>
-          <label for="file-input">
-              <ion-icon name="attach"> </ion-icon>
-          
-          <input id="file-input" class="input" type="file" (change)="upload($event)" /> 
+          <label (click)="back()" >
+          <ion-icon name="arrow-back" ></ion-icon>
         </label>
-        </div>        <ion-button  class="options-button"><ion-icon name="more"></ion-icon></ion-button>
-      </ion-buttons>
+    <ion-title >Chat Group</ion-title>
+  
+      
+    <div class="image-upload" float-right>
+      <label for="file-input" (change)="upload($event)">
+          <ion-icon name="attach"> </ion-icon>
+    </label>
+   </div>
+ 
+      <div class="image-upload" float-right>
+  <label for="file-input">
+      <ion-icon class="input" name="attach"> </ion-icon>
+  
+  <input id="file-input" class="input" type="file" (change)="upload($event)" /> 
+</label>
+</div>
+    
      
   </ion-toolbar>
 </ion-header>
@@ -30,13 +33,13 @@
         
             <div  class="me" *ngIf="key == text.UserID" >
                 <span class="name"> Me:{{text.Name}}<br></span>
-                <img  src="{{text.image}}">
+                <img  src="{{text.image}}" >
                  {{text.Message}}</div>
              <!-- <span class="message-timestamp">{{ message.TimeStamp  }}</span>  -->
           
             <div  class="you" *ngIf="key != text.UserID" >
             <span class="name"> {{text.Name}}<br></span>
-            <img  src="{{text.image}}">
+            <img  src="{{text.image}}" >
             {{text.Message}}</div>
             <!-- <span class="message-timestamp">{{ message.TimeStamp  }}</span>  -->
             </div>
@@ -45,13 +48,16 @@
 <ion-footer>
     <ion-toolbar class="messages-page-footer" position="bottom">
      
-     <ion-item>
+     <ion-item> 
+        <ion-button color="light"(click)="takePhoto()">
+            <ion-icon name="camera"></ion-icon>  
+          </ion-button>   
         <ion-input [(ngModel)]="message" class="message-editor" placeholder="Type a message"></ion-input>
    
         <ion-button color="light" float-right class="message-editor-button" (click)="send()">
           <ion-icon name="send"></ion-icon>
         </ion-button>
-   
+        
         <!-- <ion-button ion-button icon-only *ngIf="!message" class="message-editor-button">
           <ion-icon name="mic"></ion-icon>
         </ion-button> -->

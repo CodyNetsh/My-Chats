@@ -2,11 +2,10 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy, Routes } from '@angular/router';
 import * as firebase from 'firebase';
-
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { HttpClientModule } from '@angular/common/http';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
-import { PhotoViewer } from '@ionic-native/photo-viewer';
-import { Camera } from '@ionic-native/Camera/ngx';
+import { ActionSheetController } from '@ionic/angular';
 import { File } from '@ionic-native/File/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
  import { FilePath } from '@ionic-native/file-path/ngx';
@@ -27,16 +26,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AngularFireModule } from '@angular/fire';
 import { ReactiveFormsModule,FormsModule} from '@angular/forms';
 import { MomentModule } from 'angular2-moment';
-import { NavParams} from '@ionic/angular';
-import { ChatPage } from './page/chat/chat.page';
-// import { Chat , Message, MessageType} from 'src/app/module/chats';
 
-// const routes: Routes = [
-//   {
-//     path: ':uid',
-//     component: ChatPage
-//   }  
-// ];
 
 const firebaseConfig = {
   apiKey: "AIzaSyC-TcnZPdzaFC3QUY1TdWXGI8ZRPgz70Fo",
@@ -63,6 +53,7 @@ firebase.initializeApp(firebaseConfig);
     AngularFireStorageModule,
     ],
   providers: [
+    // PhotoViewer,
     StatusBar,
     SplashScreen,
     Camera,

@@ -1,31 +1,39 @@
 <ion-header>
   <ion-toolbar color="success">
-      <ion-title> 
-        <img src="{{userChat.photoURL}}" width="30"  alt="Avatar" height="30">
-        {{userChat.displayName}}</ion-title> 
+      <ion-title float-left><h2> 
+        <img class="pp" src="{{userChat.photoURL}}" width="30"  height="30">
+        {{userChat.displayName}}</h2></ion-title> 
       <ion-icon name="arrow-back" (click)="back()"></ion-icon>
 
+      
+    
+    <div class="image-upload" float-right>
+      <label for="file-input" (change)="upload($event)">
+          <ion-icon name="attach"> </ion-icon>
+    </label>
+   </div>
+ 
       <div class="image-upload" float-right>
-        <label for="file-input">
-            <ion-icon name="attach"> </ion-icon>
-        
-        <input id="file-input" class="input" type="file" (change)="upload($event)" /> 
-      </label>
-      </div>
-    </ion-toolbar>
+  <label for="file-input">
+      <ion-icon class="input" name="attach"> </ion-icon>
+  
+  <input id="file-input" class="input" type="file" (change)="upload($event)" /> 
+</label>
+</div>
+</ion-toolbar>
 </ion-header>
 
 <ion-content class="background" >
     <div class="messages" *ngFor = "let buddy of bchat | async" >
 
         <div  class="me" *ngIf = "keyuid == buddy.UserID && buddy.sendto == sendTo" (click)="share(buddy)">
-            <h3>ME:{{buddy.Message}}</h3>
+            {{buddy.Message}}
             <img src="{{buddy.Image}}"   accept=".png,.jpg">
         </div>
 
             <div  class="you" *ngIf = "buddy.sendto == keyuid && buddy.UserID == sendTo" (click)="share(buddy)">
-            <h3>YOU:{{buddy.Message}}</h3>
-            <img src="{{buddy.Image}}"  accept=".png,.jpg">
+            {{buddy.Message}}
+            <img src="{{buddy.Image}}"  accept=".png,.jpg" >
         </div>
         
     </div>
@@ -35,11 +43,15 @@
 
     <ion-footer ion-fixed>    
       <ion-toolbar >    
-        <ion-item>    
+        <ion-item>   
+          <ion-button color="light"(click)="takePhoto()">
+    <ion-icon name="camera"></ion-icon>  
+  </ion-button>
         <ion-input [(ngModel)]="newmessage" placeholder="Write your message ..."></ion-input> 
             <ion-button color="light" float-right  (click)="send()" >
               <ion-icon name="send"></ion-icon>
             </ion-button>
+            
            </ion-item>
       </ion-toolbar>    
     </ion-footer>

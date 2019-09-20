@@ -41,6 +41,8 @@ photoURL:any;
   moveon = true;
   user: any;
   surname: AngularFirestoreDocument<unknown>;
+  email: AngularFirestoreDocument<unknown>;
+  Email: string;
   constructor(private router:Router,
   //  private camera: Camera,
   private  af: AngularFireAuth,
@@ -53,39 +55,25 @@ photoURL:any;
       
     this.af.auth.currentUser.photoURL;
       this.name=af.auth.currentUser.displayName;
-
+       this.Email=af.auth.currentUser.email;
       this.user=fire.doc(`userCol/${this.af.auth.currentUser.uid}`)
       this.sub=this.user.valueChanges().subscribe(event=>{
+       
        this.photoURL = event.photoURL
       })
-      //this. upload(0);//photo library
-
-    //  this.takePhoto(1);//camera
-//     var user = firebase.auth().currentUser;
-// var name, email, photoUrl, uid, emailVerified;
-
-// if (user != null) {
-//   name = user.displayName;
-//   email = user.email;
-//   photoUrl = user.photoURL;
-//   emailVerified = user.emailVerified;
-//   uid = user.uid;
-//   }
+    
   }
 
-  chooseimage() {
-    // let loader = this.loadingCtrl.create({
-    //   content: 'Please wait'
-    // })
-    // loader.present();
-    this.authService.uploadimage().then((uploadedurl: any) => {
-      // loader.dismiss();
-      this.zone.run(() => {
-        this.imgurl = uploadedurl;
-        this.moveon = false;
-      })
-    })
-  }
+  // chooseimage() {
+  
+  //   this.authService.uploadimage().then((uploadedurl: any) => {
+    
+  //     this.zone.run(() => {
+  //       this.imgurl = uploadedurl;
+  //       this.moveon = false;
+  //     })
+  //   })
+  // }
   upload(event) {
     const file= event.target.files[0];
      this.id = Math.random().toString(36).substring(2);
@@ -105,93 +93,27 @@ photoURL:any;
            this.user.update({
              photoURL:url
            })
-  //         localStorage.setItem('userid', this.afAuth.auth.currentUser.uid)
-  //  this.afAuth.auth.currentUser.updateProfile({
-  //   photoURL:url
-  // })
-
+ 
         })
       })
     ).subscribe();
   }
-  
-  updateproceed() {
-    // let loader = this.loadingCtrl.create({
-    //   content: 'Please wait'
-    // })
-    // loader.present();
-    this.authService.updateimage(this.imgurl).then((res: any) => {
-      // loader.dismiss();
-      if (res.success) {
-        this.router.navigateByUrl("chatroom");
-      }
-      else {
-        alert(res);
-      }
-    })
-  }
-  // takePhoto(sourceType:number) {
-  //   const options: CameraOptions = {
-  //     quality: 50,
-  //     destinationType: this.camera.DestinationType.DATA_URL,
-  //     encodingType: this.camera.EncodingType.JPEG,
-  //     mediaType: this.camera.MediaType.PICTURE,
-  //     correctOrientation: true,
-  //     sourceType:sourceType,
-  //   }
-  //   this.camera.getPicture(options).then((imageData) => {
-  //     let base64Image = 'data:image/jpeg;base64,' + imageData;
-  //   }, (err) => {
-  //     // Handle error
-  //   });
-  //  } 
-//    updateUserProfile(name: string, photoURL: string) {
-//     const data = {
-//       nickname: name,
-//       photoURL: photoURL
-//     };
+ 
+  // updateproceed() {
+   
+  //   this.authService.updateimage(this.imgurl).then((res: any) => {
+  //     if (res.success) {
+  //       this.router.navigateByUrl("chatroom");
+  //     }
+  //     else {
+  //       alert(res);
+  //     }
+  //   })
+  // }
 
-//     return this.afAuth.auth.currentUser.updateProfile(data)
-//       .then(() => {
-//         console.log('Successfully updated default user profile');
-
-//         // IMPORTANT: Force refresh regardless of token expiration
-//         return this.afAuth.auth.currentUser.getIdToken(true);
-//       })
-//       .then(newToken => {
-//         console.log('Token refreshed!', newToken);
-//         return newToken;
-//       })
-//       .catch((err) => console.log(err));
-
-      
-//  }
-  
-  // getImage() {
-  //   const options: CameraOptions = {
-  //     quality: 100,
-  //     destinationType: this.camera.DestinationType.DATA_URL,
-  //     encodingType: this.camera.EncodingType.JPEG,
-  //     mediaType: this.camera.MediaType.PICTURE,
-  //     // correctOrientation: true,
-  //     sourceType:this.camera.PictureSourceType.PHOTOLIBRARY,
-  //   }
-  //   this.camera.getPicture(options).then((imageData) => {
-  //    let base64Image= 'data:image/jpeg;base64,' + imageData;
-  //   }, (err) => {
-  //     // Handle error
-  //     console.log(err)
-  //   });
-    // localStorage.setItem('UserID', this.afAuth.auth.currentUser.uid)
-    // this.afAuth.auth.currentUser.updateUser({
-    //   displayName:this.nickname,
-    //   photoURL:''
-    // })
-
-  // } 
-  message(arg0: string) {
-    throw new Error("Method not implemented.");
-  }
+  // message(arg0: string) {
+  //   throw new Error("Method not implemented.");
+  // }
 
   ngOnInit() {
      
@@ -211,38 +133,33 @@ photoURL:any;
   //}
 
   enterNickname() {
-    // localStorage.setItem('UserID', this.afAuth.auth.currentUser.uid)
-    // this.afAuth.auth.currentUser.updateProfile({
-    //   displayName:this.nickname,
-    //   photoURL:''
-    // })
-
-    // console.log(this.user.displayName)
-    // this.router.navigate(['/chatroom'], { queryParams:{ displayName:this.user.displayName}});
-  this.router.navigateByUrl("chatroom")
+   
+      // this.authService.update(user, user.userID);
+      // alert("user updated");
+      this.router.navigateByUrl("chatroom");
   }
 
-  editimage() {
-    let statusalert = this.alertCtrl.create({
-      buttons: ['okay']
-    });
-    this.authService.uploadimage().then((url: any) => {
-      this.authService.updateimage(url).then((res: any) => {
-        if (res.success) {
-          // statusalert.setTitle('Updated');
-          // statusalert.setSubTitle('Your profile pic has been changed successfully!!');
-          // // statusalert.present();
-          this.zone.run(() => {
-          this.avatar = url;
-        })  
-        }  
-      }).catch((err) => {
-          // statusalert.setTitle('Failed');
-          // statusalert.setSubTitle('Your profile pic was not changed');
-          // // statusalert.present();
-      })
-      })
-  }
+  // editimage() {
+  //   let statusalert = this.alertCtrl.create({
+  //     buttons: ['okay']
+  //   });
+  //   this.authService.uploadimage().then((url: any) => {
+  //     this.authService.updateimage(url).then((res: any) => {
+  //       if (res.success) {
+  //         // statusalert.setTitle('Updated');
+  //         // statusalert.setSubTitle('Your profile pic has been changed successfully!!');
+  //         // // statusalert.present();
+  //         this.zone.run(() => {
+  //         this.avatar = url;
+  //       })  
+  //       }  
+  //     }).catch((err) => {
+  //         // statusalert.setTitle('Failed');
+  //         // statusalert.setSubTitle('Your profile pic was not changed');
+  //         // // statusalert.present();
+  //     })
+  //     })
+  // }
   // uploadFile() {
   //   let loader = this.loadingCtrl.create({
   //     // content: "Uploading..."

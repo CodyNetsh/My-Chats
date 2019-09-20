@@ -12,6 +12,7 @@ const routes: Routes = [
   { path: 'chat', loadChildren: './page/chat/chat.module#ChatPageModule' },
   { path: 'add-friend', loadChildren: './page/add-friend/add-friend.module#AddFriendPageModule' },
   { path: 'annonymous', loadChildren: './page/annonymous/annonymous.module#AnnonymousPageModule' },
+  { path: 'popover', loadChildren: './page/popover/popover.module#PopoverPageModule' },
   // ,canActivate:[AuthGuard ] 
 ];
 
