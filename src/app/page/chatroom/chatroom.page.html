@@ -40,23 +40,17 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="chats">
+<ion-content class="chats" color="secondary">
 
-    <ion-list >
-        <ion-item-sliding *ngFor="let userChat of users ">
-          <div *ngIf="userChat.userID != uid">
-              <button width="100%;" class="block" color="light" ion-item  (click)="private(userChat) ">
-                  <img class="chat-picture"  style="width:70px" float-left src="{{userChat.photoURL}}"> 
+    <ion-list  >
+        <ion-item-sliding *ngFor="let userChat of users " >
+          <div   *ngIf="userChat.userID != uid">
+              <button width="100%;" class="block"  color="secondary" ion-item  (click)="private(userChat) " >
+                  <img class="chat-picture"    src="{{userChat.photoURL}}"> 
                    <h4 class="chat-title" >{{userChat.displayName}}</h4>
-                   <!-- <span *ngIf="chat.Message" class="last-message">
-                       <h6  class="last-message-content last-message-content-text">{{chat.Message}}</h6>
-                        <span class="last-message-timestamp">last seen... {{chat.lastMessage.createdAt | date:'EE  hh:mm'}}</span>
-                     </span>  -->
-                 
+                  
                </button> 
-               <!-- <ion-item-options class="chat-options">
-                   <button ion-button color="danger" class="option option-remove" (click)="removeChat(chat)">Remove</button>
-                 </ion-item-options> -->
+              
           </div>
          
         </ion-item-sliding>

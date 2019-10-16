@@ -6,7 +6,6 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { AuthenticationService } from 'src/app/service/authentication.service';
-import { WindowService } from '../../service/window.service';
 import {finalize} from 'rxjs/operators';
 import { AngularFireStorageModule, AngularFireStorage } from '@angular/fire/storage';
 import {  AngularFirestoreDocument } from '@angular/fire/firestore';

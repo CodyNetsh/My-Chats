@@ -2,10 +2,10 @@
 <ion-content  class="background-image">
    
     <div class="form-group">
-        <h6 float-right><img src="../assets/img/blu.png"  width="30" height="30" [ngClass]="{'btn-primary
+        <!-- <h6 float-right><img src="../assets/img/blu.png"  width="30" height="30" [ngClass]="{'btn-primary
           active': selectedVal == 'register' }"
           (click)="onValChange('register')">
-        <br>SignUp</h6>
+        <br>SignUp</h6> -->
     
     &nbsp;<br>
     &nbsp;<br>
@@ -15,16 +15,16 @@
     &nbsp;
     <br><br>
     <br><br><br>
-    <br>
+    <br><br><br>
     <br><br>
-    <ion-item> <ion-label floating for="email">Email</ion-label>
+    <ion-item color="secondary"> <ion-label floating for="email">Email</ion-label>
     <ion-input type="email" class="form-control" [(ngModel)]="user.email"
     id="email" placeholder="Email"></ion-input>
     </ion-item>
     </div>
     <div *ngIf="!isregisterUser">
     <div class="form-group" *ngIf="!isForgotPassword">
-    <ion-item >
+    <ion-item color="secondary">
       <ion-label floating for="password">Password</ion-label>
     <ion-input type="password" class="form-control"
     [(ngModel)]="user.password" id="password" placeholder="Password"></ion-input>
@@ -33,40 +33,40 @@
     <div class="form-group" *ngIf="!isForgotPassword">
     
     <span *ngIf="selectedVal == 'login'; else elseBlock">
-    <ion-button expand="full" color="primary" (click)="loginUser(user)">Log In</ion-button>
+    <ion-button expand="full" color="success" (click)="loginUser(user)">Log In</ion-button>
      <h5 style="text-align:center;" >_____________or____________</h5>
-     <ion-button expand="full" color="primary" (click)="ann()">Annonymous</ion-button>
+     <ion-button expand="full" color="success" (click)="ann()">Annonymous</ion-button>
 
     <p>
     <a href="javascript:void(0)" (click)="this.isForgotPassword= true;">Forgot
     Password?</a>
-    If you're a new user, please sign up.
-    </p>
+    If you're a new user, please 
+   <a href="javascript:void(0)" [ngClass]="{'btn-success
+      active': selectedVal == 'register' }"
+      (click)="onValChange('register')">
+    <br>SignUp</a>
+  </p>
     </span>
     <ng-template #elseBlock>
-        <ion-item> <ion-label floating for="name">First Name</ion-label>
+        <ion-item color="secondary">
+           <ion-label floating for="name">First Name</ion-label>
           <ion-input type="name" class="form-control" [(ngModel)]="nickname"
           id="name" placeholder="FirstName"></ion-input>
-          </ion-item>
-          <ion-item> <ion-label floating for="lastname">LastName</ion-label>
+          </ion-item >
+          <ion-item color="secondary"> 
+            <ion-label floating for="lastname">LastName</ion-label>
             <ion-input type="lastname" class="form-control" [(ngModel)]="lastname"
             id="lastname" placeholder="LastName"></ion-input>
-
             </ion-item>
 
            
               
-    <ion-button expand="full" class="btn btn-primary"(click)="register(user)">Register</ion-button>
+    <ion-button  expand="full" class="btn btn-success"(click)="register(user)">Register</ion-button>
      <h5 style="text-align:center;" >_____________or____________</h5>
-    <ion-button expand="full" [ngClass]="{'btn-primary
+    <ion-button expand="full" [ngClass]="{'btn-success
     active': selectedVal == 'login' }"
     (click)="onValChange('login')" color="danger">Login</ion-button>
     </ng-template>
-    
-    
-    
-    
-   
     
     </div>
     </div>
@@ -75,7 +75,7 @@
     
     <ion-button expand="full" color="danger" (click)="this.isForgotPassword=
     false;">Cancel</ion-button>
-    <ion-button type="button" expand="full" class="btn btn-primary"
+    <ion-button type="button" expand="full" class="btn btn-success"
     (click)="forgotPassword()">Get email to reset passowrd</ion-button>
     <!-- <h5 style="text-align:center;" >_____________or____________</h5> -->
     

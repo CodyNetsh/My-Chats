@@ -60,7 +60,10 @@ export class AuthenticationService {
 //   this.chatRef = this.fire.doc<User>('userCol/'+ uid);
 //   this.chatRef.update(user);
 //  }
-
+delete(uid){
+  this.fire.doc('userCol/' + uid).delete();
+ 
+ }
  addnewmessage(msg) {
   if (this.chat) {
     var promise = new Promise((resolve, reject) => {

@@ -26,6 +26,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AngularFireModule } from '@angular/fire';
 import { ReactiveFormsModule,FormsModule} from '@angular/forms';
 import { MomentModule } from 'angular2-moment';
+import {  ToastController } from '@ionic/angular';
 
 
 const firebaseConfig = {

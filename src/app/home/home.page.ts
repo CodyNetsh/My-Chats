@@ -15,6 +15,7 @@ import { AlertController, LoadingController } from '@ionic/angular';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { finalize } from 'rxjs/operators';
 import * as firebase from 'firebase';
+import {  ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -54,7 +55,8 @@ respData: any;
     public zone: NgZone, public alertCtrl: AlertController,
      public loadingCtrl: LoadingController
     ,public Storage: AngularFireStorage,
-    private transfer: FileTransfer
+    private transfer: FileTransfer,public toastController: ToastController
+
     ) { 
       this.selectedVal = 'login';
       this.isForgotPassword = false;
@@ -63,112 +65,17 @@ respData: any;
      
   }
 
-  // facebook(){
-  //   this.authService.loginWithFaceBook()
-  //   .then(res => {
-  //     console.log(res);
-  //     this.showMessage("success", "Successfully Logged In with Google");
-  //     this.isUserLoggedIn();
-  //   }, err => {
-  //     this.showMessage("danger", err.message);
-  //   });
 
-    
-  // }
-  // twitter(){
-  //   this.authService.loginWithTwitter()
-  //   .then(res => {
-  //     console.log(res);
-  //     this.showMessage("success", "Successfully Logged In with Google");
-  //     this.isUserLoggedIn();
-  //   }, err => {
-  //     this.showMessage("danger", err.message);
-  //   });
-  //}
  
-  // phone(){
-  //   this.router.navigateByUrl("otp")
-  // }
   ngOnInit() {
-    // this.plt.ready().then(() => {
-    //   this.loadStoredImages();
-    // });
-
 
 }
 
-  // cropUpload() {
-  //   this.imagePicker.getPictures({ maximumImagesCount: 1, outputType: 0 }).then((results) => {
-  //     for (let i = 0; i < results.length; i++) {
-  //         console.log('Image URI: ' + results[i]);
-  //         this.crop.crop(results[i], { quality: 100 })
-  //           .then(
-  //             newImage => {
-  //               console.log('new image path is: ' + newImage);
-  //               const fileTransfer: FileTransferObject = this.transfer.create();
-  //               const uploadOpts: FileUploadOptions = {
-  //                  fileKey: 'file',
-  //                  fileName: newImage.substr(newImage.lastIndexOf('/') + 1)
-  //               };
-  
-  //               fileTransfer.upload(newImage, 'http://192.168.0.7:3000/api/upload', uploadOpts)
-  //                .then((data) => {
-  //                  console.log(data);
-  //                  this.respData = JSON.parse(data.response);
-  //                  console.log(this.respData);
-  //                  this.fileUrl = this.respData.fileUrl;
-  //                }, (err) => {
-  //                  console.log(err);
-  //                });
-  //             },
-  //             error => console.error('Error cropping image', error)
-  //           );
-  //     }
-  //   }, (err) => { console.log(err); });
-  // }
-
-//   startUpload(imgEntry) {
-//     this.file.resolveLocalFilesystemUrl(imgEntry.filePath)
-//         .then(entry => {
-//             ( < FileEntry > entry).file(file => this.readFile(file))
-//         })
-//         .catch(err => {
-//             this.presentToast('Error while reading file.');
-//         });
-//         this.loadStoredImages();
-// }
- 
-// readFile(file: any) {
-//     const reader = new FileReader();
-//     reader.onloadend = () => {
-//         const formData = new FormData();
-//         const imgBlob = new Blob([reader.result], {
-//             type: file.type
-//         });
-//         formData.append('file', imgBlob, file.name);
-//         this.uploadImageData(formData);
-//     };
-//     reader.readAsArrayBuffer(file);
-
-// }
 loginUser(user:User) {
-  // this.responseMessage = "";
-  // this.authService.login(this.user.name, this.user.password)
-  //   .then(res => {
-  //     console.log(res);
-  //     this.showMessage("success", "Successfully Logged In!");
-  //     this.isUserLoggedIn();
-  //   }, err => {
-  //     this.showMessage("danger", err.message);
-  //   });
+  
 
   this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password).then(data => {
-    // const UserID = this.afAuth.auth.currentUser.uid;
-    // const Name = this.afAuth.auth.currentUser.displayName;
-
-  //   console.log(this.nickname)
-  //   this.router.navigate(['/signin'], { queryParams:{ nickname:this.nickname}});
-   this.router.navigateByUrl("signin")
+    this.router.navigateByUrl("signin")
   })
 }
 showMessage(type, msg) {
@@ -186,7 +93,8 @@ isUserLoggedIn() {
   this.userDetails = this.authService.isUserLoggedIn();
   this.router.navigateByUrl("signin")
 }
-logoutUser() {
+  async logoutUser() {
+  
   this.authService.logout()
     .then(res => {
       console.log(res);
@@ -194,6 +102,11 @@ logoutUser() {
       localStorage.removeItem('user');
     }, err => {
       this.showMessage("danger", err.message);
+    });
+    const toast = await this.toastController.create({
+      message: 'Successfully logged in.',
+      duration: 1500,
+      position: 'top'
     });
 }
 
@@ -241,40 +154,26 @@ async register(user: User){
     displayName: this.nickname,
    lastname: this.lastname,
    userID:this.afAuth.auth.currentUser.uid,
-   photoURL:''
+   photoURL:'assets/img/ClientLogincol2.png'
   })
   this.afAuth.auth.currentUser.updateProfile({
     displayName:this.nickname,
-    photoURL:''
+    photoURL:'assets/img/ClientLogincol2.png'
       })
 })
 this.router.navigateByUrl("signin");
-
+const toast = await this.toastController.create({
+  message: 'Account have been created.',
+  duration: 1500,
+  position: 'top'
+});
 }
 catch(e){
 
   console.error(e);
-}
+}}
 
 
-// this.authService.register(this.emailInput, this.passwordInput)
-// .then(res => {
-
-//   // Send Varification link in email
-//   this.authService.sendEmailVerification().then(res => {
-//     console.log(res);
-//     this.isForgotPassword = false;
-//     this.showMessage("success", "Registration Successful! Please Verify Your Email");
-//   }, err => {
-//     this.showMessage("danger", err.message);
-//   });
-//   this.isUserLoggedIn();
-
-
-// }, err => {
-//   this.showMessage("danger", err.message);
-// });
-}
 // Send link on given email to reset password
 forgotPassword() {
   this.authService.sendPasswordResetEmail(this.emailInput)
@@ -287,110 +186,4 @@ forgotPassword() {
     });
 }
 
-// Open Popup to Login with Google Account
-// googleLogin() {
-//   this.authService.loginWithGoogle()
-//     .then(res => {
-//       console.log(res);
-//       this.showMessage("success", "Successfully Logged In with Google");
-//       this.isUserLoggedIn();
-//     }, err => {
-//       this.showMessage("danger", err.message);
-//     });
-// }
-
-// uploadImage(imageURI){
-//   return new Promise<any>((resolve, reject) => {
-//     let storageRef = firebase.storage().ref();
-//     let imageRef = storageRef.child('image').child('imageName');
-//     this.encodeImageUri(imageURI, function(image64){
-//       imageRef.putString(image64, 'data_url')
-//       .then(snapshot => {
-//         resolve(snapshot.downloadURL)
-//       }, err => {
-//         reject(err);
-//       })
-//     })
-//   })
-// }
-
-// encodeImageUri(imageUri, callback) {
-//   var c = document.createElement('canvas');
-//   var ctx = c.getContext("2d");
-//   var img = new Image();
-//   img.onload = function () {
-//     var aux:any = this;
-//     c.width = aux.width;
-//     c.height = aux.height;
-//     ctx.drawImage(img, 0, 0);
-//     var dataURL = c.toDataURL("image/jpeg");
-//     callback(dataURL);
-//   };
-//   img.src = imageUri;
-// };
-
-// openImagePicker(){
-//   this.imagePicker.hasReadPermission().then(
-//     (result) => {
-//       if(result == false){
-//         // no callbacks required as this opens a popup which returns async
-//         this.imagePicker.requestReadPermission();
-//       }
-//       else if(result == true){
-//         this.imagePicker.getPictures({
-//           maximumImagesCount: 1
-//         }).then(
-//           (results) => {
-//             for (var i = 0; i < results.length; i++) {
-//               this.uploadImageToFirebase(results[i]);
-//             }
-//           }, (err) => console.log(err)
-//         );
-//       }
-//     }, (err) => {
-//       console.log(err);
-//     });
-//   }
-
-//   uploadImageToFirebase(image){
-//     // image = normalizeURL(image);
-  
-//     //uploads img to firebase storage
-//     this.firebaseService.uploadImage(image)
-//     .then(photoURL => {
-  
-//       let toast = this.toastCtrl.create({
-//         message: 'Image was updated successfully',
-//         duration: 3000
-//       });
-//       toast.present();
-//       })
-//     }
-//     openImagePickerCrop(){
-//       this.imagePicker.hasReadPermission().then(
-//         (result) => {
-//           if(result == false){
-//             // no callbacks required as this opens a popup which returns async
-//             this.imagePicker.requestReadPermission();
-//           }
-//           else if(result == true){
-//             this.imagePicker.getPictures({
-//               maximumImagesCount: 1
-//             }).then(
-//               (results) => {
-//                 for (var i = 0; i < results.length; i++) {
-//                   this.cropService.crop(results[i], {quality: 75}).then(
-//                     newImage => {
-//                       this.uploadImageToFirebase(newImage);
-//                     },
-//                     error => console.error("Error cropping image", error)
-//                   );
-//                 }
-//               }, (err) => console.log(err)
-//             );
-//           }
-//         }, (err) => {
-//           console.log(err);
-//         });
-//       }
 }

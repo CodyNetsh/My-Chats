@@ -53,9 +53,9 @@ export class CollectionPage implements OnInit {
     ,public actionSheetController: ActionSheetController    ) {
    
   this.key =this.afAuth.auth.currentUser.uid;
-    this.chatRef = this.fire.collection('userCol',ref=>ref.orderBy('TimeStamp')).valueChanges();
+    this.chatRef = this.fire.collection('multiple',ref=>ref.orderBy('TimeStamp')).valueChanges();
 
-    this.takePhoto();
+   
 
    }
 
@@ -75,7 +75,7 @@ export class CollectionPage implements OnInit {
    
      if(this.message != ''){
      
-       this.fire.collection('userCol').add({
+       this.fire.collection('multiple').add({
         Name: this.afAuth.auth.currentUser.displayName,
         Message: this.message,
         UserID: this.afAuth.auth.currentUser.uid,
@@ -98,7 +98,7 @@ export class CollectionPage implements OnInit {
       finalize(() => {
         this.downloadURL = this.ref.getDownloadURL().subscribe(urlfile=>{
            console.log(urlfile);
-           this.fire.collection('userCol').add({
+           this.fire.collection('multiple').add({
             Name: this.afAuth.auth.currentUser.displayName,
             image:urlfile,
             UserID: this.afAuth.auth.currentUser.uid,
@@ -118,14 +118,21 @@ export class CollectionPage implements OnInit {
         mediaType: this.camera.MediaType.PICTURE
       }
       
-      this.camera.getPicture(options).then((imageData) => {
+      this.camera.getPicture(options).then((urlfile) => {
        // imageData is either a base64 encoded string or a file URI
        // If it's base64 (DATA_URL):
-       let base64Image = 'data:image/jpeg;base64,' + imageData;
+       this.fire.collection('multiple').add({
+        Name: this.afAuth.auth.currentUser.displayName,
+        image:urlfile,
+        UserID: this.afAuth.auth.currentUser.uid,
+        TimeStamp:firebase.firestore.FieldValue.serverTimestamp(),
+      });
+       let base64Image = 'data:image/jpeg;base64,' + urlfile;
       }, (err) => {
        // Handle error
       });
     }
+    
     async presentActionSheet() {
       const actionSheet = await this.actionSheetController.create({
         header: 'Albums',

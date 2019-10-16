@@ -47,7 +47,7 @@ export class ChatroomPage implements OnInit {
       
     })
   
-    this.takePhoto();
+   
   }
   takePhoto() {
     const options: CameraOptions = {
@@ -147,5 +147,9 @@ async presentActionSheet() {
     }]
   });
   await actionSheet.present();
+}
+onDelete(uid){
+  this.authService.delete(uid);
+  alert("Product deleted");
 }
 }

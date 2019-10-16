@@ -47,7 +47,7 @@ export class ChatPage implements OnInit {
     public loadingCtrl: LoadingController
       ,public Storage: AngularFireStorage,
       private socialSharing: SocialSharing,
-      private authService: AuthenticationService,      private camera: Camera,public actionSheetController: ActionSheetController) { 
+        private camera: Camera,public actionSheetController: ActionSheetController) { 
         
       this.keyuid =this.afAuth.auth.currentUser.uid;
       this.bchat=this.fire.collection('personal',ref=>ref.orderBy('TimeStamp')).valueChanges();
@@ -63,7 +63,6 @@ export class ChatPage implements OnInit {
         this.sendTo=params.uid
         console.log(this.userChat.displayName,this.userChat.photoURL,this.userChat.uid)
     });
-    this.takePhoto();
 
     }
     send(){
@@ -104,7 +103,7 @@ export class ChatPage implements OnInit {
             Name: this.afAuth.auth.currentUser.displayName,
             Image:urlfile,
             UserID: this.afAuth.auth.currentUser.uid,
-            sendto:this.sendTo,
+            sendto:this.sendTo, 
             TimeStamp:firebase.firestore.FieldValue.serverTimestamp(),
           });
        
@@ -124,17 +123,7 @@ export class ChatPage implements OnInit {
   //   }
   ngOnInit() {
   }
-  showMessage(type, msg) {
-    this.responseMessageType = type;
-    this.responseMessage = msg;
-    setTimeout(() => {
-      this.responseMessage = "";
-    }, 2000);
-  }
-  public onValChange(val: string) {
-    this.showMessage("", "");
-    this.selectedVal = val;
-  }
+ 
   takePhoto() {
     const options: CameraOptions = {
       quality: 100,
@@ -143,14 +132,21 @@ export class ChatPage implements OnInit {
       mediaType: this.camera.MediaType.PICTURE
     }
     
-    this.camera.getPicture(options).then((imageData) => {
-     // imageData is either a base64 encoded string or a file URI
-     // If it's base64 (DATA_URL):
-     let base64Image = 'data:image/jpeg;base64,' + imageData;
-    }, (err) => {
-     // Handle error
-    });
-  }
+    this.camera.getPicture(options).then((urlfile) => {
+      // imageData is either a base64 encoded string or a file URI
+      // If it's base64 (DATA_URL):
+      this.fire.collection('personal').add({
+       Name: this.afAuth.auth.currentUser.displayName,
+       image:urlfile,
+       UserID: this.afAuth.auth.currentUser.uid,
+       TimeStamp:firebase.firestore.FieldValue.serverTimestamp(),
+     });
+      let base64Image = 'data:image/jpeg;base64,' + urlfile;
+     }, (err) => {
+      // Handle error
+     });
+   }
+
   async presentActionSheet() {
     const actionSheet = await this.actionSheetController.create({
       header: 'Albums',
